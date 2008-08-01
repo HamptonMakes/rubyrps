@@ -17,9 +17,9 @@ module RSP
         round = RSP::Round.new(@first_player, @second_player)
         @history << round
         if round.winner == first_player
-          @first_player_wins = first_player_wins + 1
+          @first_player_wins += 1
         elsif round.winner == second_player
-          @second_player_wins = second_player_wins + 1
+          @second_player_wins += 1
         else
           @ties = ties + 1
         end
