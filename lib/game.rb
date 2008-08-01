@@ -32,9 +32,9 @@ module RSP
     
     def winner
       must_win_by = (0.10 * @rounds_to_run).to_i
-      if (first_player_wins + must_win_by) > second_player_wins
+      if (first_player_wins - must_win_by) > second_player_wins
         first_player
-      elsif first_player_wins < (second_player_wins + must_win_by)
+      elsif first_player_wins < (second_player_wins - must_win_by)
         second_player
       end
     end
