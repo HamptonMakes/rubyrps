@@ -1,3 +1,9 @@
+#
+# Randomizer!
+#
+# Created by Hampton Catlin (hcatlin@gmail.com)
+#
+
 class Randomizer
   include RSP::Bot
   
