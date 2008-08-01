@@ -15,25 +15,33 @@ module RSP
   def self.run
     game_record = {}
     @@bots.each do |bot|
-      game_record[bot] = {:wins => 0, :loses => 0, :draws => 0}
+      game_record[bot] = {:wins => 0, :losses => 0, :draws => 0}
     end
     
     @@bots.each do |bot|
       (@@bots - [bot]).each do |other_bot|
         game = Game.new(bot, other_bot)
         game.execute
+
         
-        if game.winner == bot
+        if game.winner.class == bot
           game_record[bot][:wins]        += 1
-          game_record[other_bot][:loses] += 1
-        elsif game.winner == other_bot
+          game_record[other_bot][:losses] += 1
+        elsif game.winner.class == other_bot
           game_record[other_bot][:wins]  += 1
-          game_record[bot][:loses]       += 1
+          game_record[bot][:losses]       += 1
         else
           game_record[other_bot][:draws] += 1
           game_record[bot][:draws]       += 1
         end
       end
+    end
+    
+    
+    puts "------------------\n\n"
+    game_record.each do |bot, data|
+      puts bot.to_s + "\t\tW#{data[:wins]}, L#{data[:losses]}, D#{data[:draws]}"
+      
     end
   end
 end
