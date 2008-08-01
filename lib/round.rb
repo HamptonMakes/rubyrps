@@ -7,6 +7,10 @@ module RSP
       execute
     end
     
+    def other_player_move(my_player)
+      my_player == @first_player ? @second_player_move : @first_player_move
+    end
+    
     def to_s
       result = ""
       [[@first_player, @first_player_move], [@second_player, @second_player_move]].each_with_index do |set, index|

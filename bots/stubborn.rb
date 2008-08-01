@@ -3,8 +3,6 @@
 #
 # Created by Hampton Catlin (hcatlin@gmail.com)
 #
-
-
 class Stubborn
   include RSP::Bot
   
