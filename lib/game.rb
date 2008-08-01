@@ -49,7 +49,7 @@ module RSP
         result << "Winner is #{winner}\n"
         result << "Loser is #{loser}\n"
       else
-        result << "DRAW\n"
+        result << "DRAW between #{first_player} and #{second_player}\n"
       end
       
       result << "Player 1: Won #{((first_player_wins / @rounds_to_run.to_f) * 100).to_i}%\n"
