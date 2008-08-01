@@ -1,0 +1,13 @@
+=== Official Ruby RSP Library ===
+
+So, I decided to build a Ruby library to facilitate Rock, Scissors, Paper tournaments
+between Ruby bots.
+
+The API for building your own bot is extremely simple.
+
+Look at Randomizer and Stubborn for what you need to implement. Its as simple as including
+RSP::Bot and then implementing a #next method. History of rounds is available through #history.
+
+The code is ugly, but whatever. It runs. I built this in an hour.
+
+If you want to enter your own bot in the competition, then simply fork the repo, and do a pull request.
