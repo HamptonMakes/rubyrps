@@ -8,8 +8,19 @@ class RSP::Game
   end
 end
 
+class RSP::Round
+  def my_move(me)
+    me == @first_player ? @first_player_move : @second_player_move
+  end
+end
+
 class IocainePowder
   include RSP::Bot
+
+  FOOL_THRESHOLD = 0.6
+  ROUNDS_TO_DIE = 800
+  POISONED = 0.2
+  INTERVALS = [50, 10, 5, 1]
 
   def next
     history.empty? ? anyone_want_a_peanut? : never_start_a_land_war_in_asia
@@ -21,15 +32,11 @@ class IocainePowder
 
   def never_start_a_land_war_in_asia
     return inconceivable! if poisoned?
-    return hippopotamic_land_mass if unemployed_in_greenland?
-    anyone_want_a_peanut?
-  end
-
-  def unemployed_in_greenland?
-    opponent_move_breakdown(10).each do |each_move|
-      return true if each_move.length > 6
+    INTERVALS.each do |rounds|
+     move = hippopotamic_land_mass(rounds)
+      return move unless move.nil?
     end
-    false
+    anyone_want_a_peanut?
   end
 
   def inconceivable!
@@ -39,34 +46,35 @@ class IocainePowder
 
   def poisoned?
     return false if wins > losses
-    return false if losses + wins < 800
-    return false if (losses - wins).to_f / (losses + wins).to_f < 0.2
+    return false if losses + wins < ROUNDS_TO_DIE
+    return false if (losses - wins).to_f / (losses + wins).to_f < FOOL_THRESHOLD
     true
   end
 
-  def hippopotamic_land_mass
-    opponent_move_breakdown(10).each do |each_move|
-      return play_from_prediction(each_move.first) if each_move.length > 6
+  def hippopotamic_land_mass(n)
+    opponent_moves = []
+    my_move = history.last.my_move(self)
+    recent = history.reverse[0..n].to_a.reverse
+    count_next_round = false
+    recent.each do |round|
+      opponent_moves << round.other_player_move(self) if(count_next_round)
+      count_next_round = (my_move == round.my_move(self))
     end
-    inconceivable!
-  end
-
-  def play_from_prediction(opponent_move)
-    case opponent_move.name
-    when :rock
-      moves.select {|m| m.name == :paper}.first
-    when :scissors
-      moves.select {|m| m.name == :rock}.first
-    when :paper
-      moves.select {|m| m.name == :scissors}.first
+    break_em_down(opponent_moves).each do |each_move|
+      return each_move.first.beaten_by if each_move.length.to_f / opponent_moves.length.to_f > FOOL_THRESHOLD
     end
+    nil
   end
 
   def opponent_move_breakdown(n)
-    last_n_rounds = history.reverse[0..n].to_a
-    rocks = last_n_rounds.select {|r| r.other_player_move(self).name == :rock}.collect {|r| r.other_player_move(self)}
-    papers = last_n_rounds.select {|r| r.other_player_move(self).name == :papers}.collect {|r| r.other_player_move(self)}
-    scissors = last_n_rounds.select {|r| r.other_player_move(self).name == :scissors}.collect {|r| r.other_player_move(self)}
+    last_n_moves = history.reverse[0..n].to_a.collect {|r| r.other_player_move(self)}
+    break_em_down(last_n_moves)
+  end
+
+  def break_em_down(moves)
+    rocks = moves.select {|m| m.name == :rock}
+    papers = moves.select {|m| m.name == :paper}
+    scissors = moves.select {|m| m.name == :scissors}
     [rocks, papers, scissors]
   end
 
