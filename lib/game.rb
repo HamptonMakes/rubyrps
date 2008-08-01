@@ -7,7 +7,6 @@ module RSP
       @verbose = options[:verbose] || false
       @first_player, @second_player = first_player_klass.new(self), second_player_klass.new(self)
       @first_player_wins, @second_player_wins, @ties = 0, 0, 0
-      execute
     end
     
     def execute
@@ -27,14 +26,15 @@ module RSP
         puts round if @verbose
       end
       
-      puts "------------------" if @verbose
+      puts "------------------"
       puts self
     end
     
     def winner
-      if first_player_wins > second_player_wins
+      must_win_by = (0.10 * @rounds_to_run).to_i
+      if (first_player_wins + must_win_by) > second_player_wins
         first_player
-      elsif first_player_wins < second_player_wins
+      elsif first_player_wins < (second_player_wins + must_win_by)
         second_player
       end
     end
