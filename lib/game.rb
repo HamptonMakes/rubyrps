@@ -30,6 +30,14 @@ module RSP
       puts self
     end
     
+    def wins(player)
+      first_player.is_a?(player.class) ? first_player_wins : second_player_wins
+    end
+
+    def losses(player)
+      first_player.is_a?(player.class) ? second_player_wins : first_player_wins
+    end
+    
     def winner
       must_win_by = (0.10 * @rounds_to_run).to_i
       if (first_player_wins - must_win_by) > second_player_wins

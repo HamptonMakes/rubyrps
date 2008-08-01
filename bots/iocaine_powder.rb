@@ -1,13 +1,3 @@
-class RSP::Game
-  def wins(player)
-    first_player.is_a?(player.class) ? first_player_wins : second_player_wins
-  end
-
-  def losses(player)
-    first_player.is_a?(player.class) ? second_player_wins : first_player_wins
-  end
-end
-
 class RSP::Round
   def my_move(me)
     me == @first_player ? @first_player_move : @second_player_move
