@@ -8,6 +8,6 @@ class Randomizer
     history
     
     # This one selects randomly through the list of available moves
-    (moves.sort_by { rand() }).first
+    moves[rand(moves.size)]
   end
 end
