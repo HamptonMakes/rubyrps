@@ -1,7 +1,7 @@
 require 'lib/move'
 
 module RSP
-  MOVES = [Move.new(:rock), Move.new(:scissors), Move.new(:paper)].freeze
+  MOVES = [Move.new(:rock, :paper), Move.new(:scissors, :rock), Move.new(:paper, :scissors)].freeze
   @@bots = []
   
   def self.add(bot_klass)

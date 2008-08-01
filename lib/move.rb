@@ -2,10 +2,10 @@ module RSP
   class Move
     include Comparable
     
-    attr_reader :name
+    attr_reader :name, :beaten_by
     
-    def initialize(name)
-      @name = name
+    def initialize(name, beaten_by)
+      @name, @beaten_by = name, beaten_by
     end
     
     def to_s
@@ -13,27 +13,10 @@ module RSP
     end
 
     def <=>(other)
-      return 0 if self.name == other.name
-      
-      win = 1
-      lose = -1
-
-      # This should be *severely* cleaned up
-      if self.name == :rock && other.name == :scissors
-        win
-      elsif self.name == :rock && other.name == :paper
-        lose
-      elsif self.name == :scissors && other.name == :rock
-        lose
-      elsif self.name == :scissors && other.name == :paper
-        win
-      elsif self.name == :paper && other.name == :rock
-        win
-      elsif self.name == :paper && other.name == :scissors
-        lose
-      else
-        nil
-      end
+      result = 0
+      result += 1  if other.beaten_by == @name
+      result -= 1  if @beaten_by == other.name
+      result
     end
   end
 end
