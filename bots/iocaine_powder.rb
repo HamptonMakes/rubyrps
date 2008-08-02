@@ -4,7 +4,7 @@
 #  Written by Wes
 #
 class IocainePowder
-  include RSP::Bot
+  include RPS::Bot
 
   FOOL_THRESHOLD = 0.5
   DIE_THRESHOLD = 0.66

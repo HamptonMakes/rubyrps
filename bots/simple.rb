@@ -4,7 +4,7 @@
 #  Written by Wes
 #
 class Simple
-  include RSP::Bot
+  include RPS::Bot
 
   TENDANCY_THRESHOLD = 0.6
   GIVE_UP_THRESHOLD = 0.66

@@ -1,4 +1,4 @@
-module RSP
+module RPS
   class Move
     include Comparable
     
@@ -9,11 +9,11 @@ module RSP
     end
     
     def beats
-      @beats ||= (RSP::MOVES.find { |m| m.beaten_by_sym == self.name })
+      @beats ||= (RPS::MOVES.find { |m| m.beaten_by_sym == self.name })
     end
     
     def beaten_by
-      @beats ||= (RSP::MOVES.find { |m| m.name == self.beaten_by_sym })
+      @beats ||= (RPS::MOVES.find { |m| m.name == self.beaten_by_sym })
     end
     
     def to_s

@@ -1,9 +1,9 @@
-module RSP
+module RPS
   class Game
     attr_reader :history, :first_player, :second_player, :first_player_wins, :second_player_wins, :ties
     
     def initialize(first_player_klass, second_player_klass, options = {})
-      @rounds_to_run = options[:rounds_to_run] || 2500
+      @rounds_to_run = options[:rounds_to_run] || 1000
       @verbose = options[:verbose] || false
       @first_player, @second_player = first_player_klass.new(self), second_player_klass.new(self)
       @first_player_wins, @second_player_wins, @ties = 0, 0, 0
@@ -13,14 +13,14 @@ module RSP
       @history = []
       @rounds_to_run.times do |count|
         puts "------- ROUND #{count + 1} ------------" if @verbose
-        round = RSP::Round.new(@first_player, @second_player)
-        @history << round
+        round = RPS::Round.new(first_player, second_player)
+        history << round
         if round.winner == first_player
           @first_player_wins += 1
         elsif round.winner == second_player
           @second_player_wins += 1
         else
-          @ties = ties + 1
+          @ties += 1
         end
         
         puts round if @verbose
@@ -39,7 +39,7 @@ module RSP
     end
     
     def winner
-      must_win_by = (0.02 * @rounds_to_run).to_i
+      must_win_by = (0.05 * @rounds_to_run).to_i
       if (first_player_wins - must_win_by) > second_player_wins
         first_player
       elsif first_player_wins < (second_player_wins - must_win_by)

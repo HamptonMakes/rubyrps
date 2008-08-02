@@ -6,7 +6,7 @@
 # Created by Hampton Catlin (hcatlin@gmail.com)
 #
 class Fool
-  include RSP::Bot
+  include RPS::Bot
   
   def next
     if history.any?

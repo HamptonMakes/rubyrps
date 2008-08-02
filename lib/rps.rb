@@ -1,6 +1,6 @@
 require 'lib/move'
 
-module RSP
+module RPS
   MOVES = [Move.new(:rock, :paper), Move.new(:scissors, :rock), Move.new(:paper, :scissors)].freeze
   @@bots = []
   

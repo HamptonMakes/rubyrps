@@ -1,4 +1,4 @@
-module RSP
+module RPS
   class Round
     attr_reader :first_player, :second_player, :first_player_move, :second_player_move, :winner
 

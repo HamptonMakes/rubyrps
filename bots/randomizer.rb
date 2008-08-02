@@ -5,7 +5,7 @@
 #
 
 class Randomizer
-  include RSP::Bot
+  include RPS::Bot
   
   def next
     # Gets an array of the history of the rounds so far

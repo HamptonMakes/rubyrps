@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'lib/rsp'
+require 'lib/rps'
 require 'lib/bot'
 require 'lib/move'
 require 'lib/round'
@@ -10,4 +10,4 @@ Dir.glob("bots/*.rb").each do |file|
 end
 
 
-RSP.run ARGV
+RPS.run ARGV

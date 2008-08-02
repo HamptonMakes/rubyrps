@@ -1,11 +1,11 @@
-module RSP
+module RPS
   
   module Bot
     attr_accessor :game
     attr_accessor :wins, :losses
     
     def self.included(klass)
-      RSP.add(klass)
+      RPS.add(klass)
     end
     
     def initialize(game)
@@ -18,7 +18,7 @@ module RSP
     end
     
     def moves
-      RSP::MOVES
+      RPS::MOVES
     end
     
     def to_s
