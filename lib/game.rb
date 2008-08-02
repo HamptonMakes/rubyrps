@@ -3,7 +3,7 @@ module RSP
     attr_reader :history, :first_player, :second_player, :first_player_wins, :second_player_wins, :ties
     
     def initialize(first_player_klass, second_player_klass, options = {})
-      @rounds_to_run = options[:rounds_to_run] || 2000
+      @rounds_to_run = options[:rounds_to_run] || 2500
       @verbose = options[:verbose] || false
       @first_player, @second_player = first_player_klass.new(self), second_player_klass.new(self)
       @first_player_wins, @second_player_wins, @ties = 0, 0, 0
