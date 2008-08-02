@@ -1,3 +1,8 @@
+#
+#  Simple
+#
+#  Written by Wes
+#
 class Simple
   include RSP::Bot
 

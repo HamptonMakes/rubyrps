@@ -1,3 +1,8 @@
+#
+#  Iocaine Powder for Ruby
+#
+#  Written by Wes
+#
 class IocainePowder
   include RSP::Bot
 
