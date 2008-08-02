@@ -1,16 +1,20 @@
 module RSP
   class Round
     attr_reader :first_player, :second_player, :first_player_move, :second_player_move, :winner
-    
+
     def initialize(first_player, second_player)
       @first_player, @second_player = first_player, second_player
       execute
     end
-    
+
+    def my_move(me)
+      me == @first_player ? @first_player_move : @second_player_move
+    end
+
     def other_player_move(my_player)
       my_player == @first_player ? @second_player_move : @first_player_move
     end
-    
+
     def to_s
       result = ""
       [[@first_player, @first_player_move], [@second_player, @second_player_move]].each_with_index do |set, index|

@@ -11,8 +11,14 @@ module RSP
   def self.bots
     @@bots
   end
-  
-  def self.run
+
+  def self.select(bots)
+    return if bots.empty?
+    @@bots.reject! {|b| !bots.include?(b.to_s)}
+  end
+
+  def self.run(bots)
+    select(bots)
     game_record = {}
     @@bots.each do |bot|
       game_record[bot] = {:wins => 0, :losses => 0, :draws => 0}

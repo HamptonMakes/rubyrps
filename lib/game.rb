@@ -3,7 +3,7 @@ module RSP
     attr_reader :history, :first_player, :second_player, :first_player_wins, :second_player_wins, :ties
     
     def initialize(first_player_klass, second_player_klass, options = {})
-      @rounds_to_run = options[:rounds_to_run] || 10000
+      @rounds_to_run = options[:rounds_to_run] || 2000
       @verbose = options[:verbose] || false
       @first_player, @second_player = first_player_klass.new(self), second_player_klass.new(self)
       @first_player_wins, @second_player_wins, @ties = 0, 0, 0
@@ -39,7 +39,7 @@ module RSP
     end
     
     def winner
-      must_win_by = (0.10 * @rounds_to_run).to_i
+      must_win_by = (0.02 * @rounds_to_run).to_i
       if (first_player_wins - must_win_by) > second_player_wins
         first_player
       elsif first_player_wins < (second_player_wins - must_win_by)
@@ -60,8 +60,8 @@ module RSP
         result << "DRAW between #{first_player} and #{second_player}\n"
       end
       
-      result << "Player 1: Won #{((first_player_wins / @rounds_to_run.to_f) * 100).to_i}%\n"
-      result << "Player 2: Won #{((second_player_wins / @rounds_to_run.to_f) * 100).to_i}%"
+      result << "#{first_player}: Won #{((first_player_wins / @rounds_to_run.to_f) * 100).to_i}%\n"
+      result << "#{second_player}: Won #{((second_player_wins / @rounds_to_run.to_f) * 100).to_i}%"
     end
   end
 end
