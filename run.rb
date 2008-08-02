@@ -10,4 +10,4 @@ Dir.glob("bots/*.rb").each do |file|
 end
 
 
-RSP.run
+RSP.run ARGV
