@@ -1,7 +1,7 @@
 class Simple
   include RSP::Bot
 
-  TENDANCY_THRESHOLD = 0.5
+  TENDANCY_THRESHOLD = 0.6
   GIVE_UP_THRESHOLD = 0.66
   ROUNDS_TO_DIE = 2000
   POISONED = 0.2
@@ -37,7 +37,7 @@ class Simple
     my_move = history.last.my_move(self)
     recent = history.reverse[0..n].to_a.reverse
     count_next_round = false
-    # find all of the follow up moves that the other bots has played against yours
+    # find all of the follow up moves that the other bot has played against yours
     recent.each do |round|
       opponent_moves << round.other_player_move(self) if(count_next_round)
       count_next_round = (my_move == round.my_move(self))
