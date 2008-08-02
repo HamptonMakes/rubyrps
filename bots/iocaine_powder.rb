@@ -1,16 +1,12 @@
-class RSP::Round
-  def my_move(me)
-    me == @first_player ? @first_player_move : @second_player_move
-  end
-end
-
 class IocainePowder
   include RSP::Bot
 
-  FOOL_THRESHOLD = 0.6
+  FOOL_THRESHOLD = 0.5
+  DIE_THRESHOLD = 0.66
   ROUNDS_TO_DIE = 800
   POISONED = 0.2
-  INTERVALS = [50, 10, 5, 1]
+  LONG_INTERVALS = [64, 32, 16, 8, 4, 2, 1]
+  SHORT_INTERVALS = [5, 11, 15]
 
   def next
     history.empty? ? anyone_want_a_peanut? : never_start_a_land_war_in_asia
@@ -22,8 +18,8 @@ class IocainePowder
 
   def never_start_a_land_war_in_asia
     return inconceivable! if poisoned?
-    INTERVALS.each do |rounds|
-     move = hippopotamic_land_mass(rounds)
+    LONG_INTERVALS.each do |rounds|
+      move = guess!(rounds)
       return move unless move.nil?
     end
     anyone_want_a_peanut?
@@ -37,11 +33,46 @@ class IocainePowder
   def poisoned?
     return false if wins > losses
     return false if losses + wins < ROUNDS_TO_DIE
-    return false if (losses - wins).to_f / (losses + wins).to_f < FOOL_THRESHOLD
+    return false if (losses - wins).to_f / (losses + wins).to_f < DIE_THRESHOLD
     true
   end
 
-  def hippopotamic_land_mass(n)
+  def guess!(rounds)
+    move = naive(rounds)
+    return move if recent_success?(move)
+    return double(move) if recent_success?(double(move))
+    return triple(move) if recent_success?(triple(move))
+    inconceivable!
+  end
+
+  def double(move)
+    return nil if move.nil?
+    move.beaten_by.beaten_by
+  end
+
+  def triple(move)
+    return nil if move.nil?
+    move.beaten_by
+  end
+
+  def recent_success?(move)
+    SHORT_INTERVALS.reverse.each do |n|
+      opponent_moves = []
+      my_move = history.last.my_move(self)
+      recent = history.reverse[0..n].to_a.reverse
+      count_next_round = false
+      recent.each do |round|
+        opponent_moves << round.other_player_move(self) if(count_next_round)
+        count_next_round = (my_move == round.my_move(self))
+      end
+      break_em_down(opponent_moves).each do |each_move|
+        return true if each_move.length.to_f / opponent_moves.length.to_f > FOOL_THRESHOLD
+      end
+    end
+    false
+  end
+
+  def naive(n)
     opponent_moves = []
     my_move = history.last.my_move(self)
     recent = history.reverse[0..n].to_a.reverse
@@ -54,11 +85,6 @@ class IocainePowder
       return each_move.first.beaten_by if each_move.length.to_f / opponent_moves.length.to_f > FOOL_THRESHOLD
     end
     nil
-  end
-
-  def opponent_move_breakdown(n)
-    last_n_moves = history.reverse[0..n].to_a.collect {|r| r.other_player_move(self)}
-    break_em_down(last_n_moves)
   end
 
   def break_em_down(moves)
