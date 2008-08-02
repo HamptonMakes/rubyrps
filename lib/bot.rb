@@ -21,6 +21,14 @@ module RPS
       RPS::MOVES
     end
     
+    def wins
+      game.wins(self)
+    end
+
+    def losses
+      game.losses(self)
+    end
+    
     def to_s
       self.class.to_s
     end

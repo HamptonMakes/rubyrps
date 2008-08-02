@@ -62,12 +62,5 @@ class Simple
     [rocks, papers, scissors]
   end
 
-  def wins
-    game.wins(self)
-  end
-
-  def losses
-    game.losses(self)
-  end
 end
 
