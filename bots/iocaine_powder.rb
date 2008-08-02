@@ -18,7 +18,7 @@ class IocainePowder
   end
 
   def anyone_want_a_peanut?
-    (moves.sort_by { rand() }).first
+    moves[rand(moves.size)]
   end
 
   def never_start_a_land_war_in_asia
