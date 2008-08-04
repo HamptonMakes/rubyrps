@@ -7,7 +7,6 @@
 class IocainePowder
   include RPS::Bot
 
-  FOOL_THRESHOLD = 0.55
   DIE_THRESHOLD = 0.66
   ROUNDS_TO_DIE = 800
   POISONED = 0.2
