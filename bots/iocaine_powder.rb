@@ -12,6 +12,10 @@ class IocainePowder
   POISONED = 0.2
   LONG_INTERVALS = [64, 32, 16, 8, 4, 2, 1]
   SHORT_INTERVALS = [5, 11, 15]
+  
+  def author
+    "Stolen by Wes"
+  end
 
   def next
     history.empty? ? anyone_want_a_peanut? : never_start_a_land_war_in_asia

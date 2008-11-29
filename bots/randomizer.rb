@@ -7,6 +7,10 @@
 class Randomizer
   include RPS::Bot
   
+  def author
+    "Hampton Catlin"
+  end
+  
   def next
     # Gets an array of the history of the rounds so far
     # 

@@ -11,6 +11,10 @@ class Simple
   ROUNDS_TO_DIE = 2000
   POISONED = 0.2
   INTERVALS = [50, 10, 5, 1]
+  
+  def author
+    "Wes"
+  end
 
   def next
     history.empty? ? random_move : guess

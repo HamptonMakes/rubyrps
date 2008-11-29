@@ -1,7 +1,11 @@
+# This fella needs work. It gives up too easy. It needs to have a random chance of BEING more random.
+
 class DrinkingBot
   include RPS::Bot
   
-  FORTITUDE = 0.3
+  def author
+    "Hampton Catlin"
+  end
   
   def initialize(*args)
     @drunkenness = 0

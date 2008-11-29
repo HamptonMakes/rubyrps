@@ -1,5 +1,9 @@
 class YellowFool
   include RPS::Bot
+  
+  def author
+    "Hampton Catlin"
+  end
 
   def next
     if history.size > 100 && (history.size / game.losses(self)) > 0.5
