@@ -1,6 +1,6 @@
 module RPS
   class Game
-    attr_reader :history, :first_player, :second_player, :first_player_wins, :second_player_wins, :ties
+    attr_reader :history, :first_player, :second_player, :first_player_wins, :second_player_wins, :ties, :rounds_to_run
     
     def initialize(first_player_klass, second_player_klass, options = {})
       @rounds_to_run = options[:rounds_to_run] || 1000

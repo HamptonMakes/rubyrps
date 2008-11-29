@@ -29,6 +29,18 @@ module RPS
       game.losses(self)
     end
     
+    def rounds_in_game
+      @game.rounds_to_run
+    end
+    
+    def rounds_so_far
+      history.size
+    end
+    
+    def rounds_left
+      rounds_in_game - rounds_so_far
+    end
+    
     def to_s
       self.class.to_s
     end
