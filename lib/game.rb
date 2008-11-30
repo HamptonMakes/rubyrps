@@ -25,9 +25,6 @@ module RPS
         
         puts round if @verbose
       end
-      
-      puts "------------------"
-      puts self
     end
     
     def wins(player)
@@ -52,6 +49,7 @@ module RPS
     end
     
     def to_s
+      puts "------------------"
       result = ""
       if winner
         result << "Winner is #{winner}\n"

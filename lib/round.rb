@@ -30,13 +30,13 @@ module RPS
       end
       result
     end
-    
+
    private
-   
+
     def execute
       @first_player_move = first_player.next
       @second_player_move = second_player.next
-      
+
       if first_player_move > second_player_move
         @winner = first_player
       elsif first_player_move < second_player_move
@@ -45,6 +45,5 @@ module RPS
         @winner = false
       end
     end
-    
   end
 end

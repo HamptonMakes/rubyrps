@@ -1,20 +1,18 @@
 #
-#  Iocaine Powder for Ruby
+# Iocaine Powder for Ruby
+# Searches through the history to find common follow up moves
 #
-#  Written by Wes
+# Written by Wesley Moxam
 #
 class IocainePowder
   include RPS::Bot
 
-  FOOL_THRESHOLD = 0.5
   DIE_THRESHOLD = 0.66
   ROUNDS_TO_DIE = 800
   POISONED = 0.2
-  LONG_INTERVALS = [64, 32, 16, 8, 4, 2, 1]
-  SHORT_INTERVALS = [5, 11, 15]
   
   def author
-    "Stolen by Wes"
+    "Ported by Wes"
   end
 
   def next
@@ -27,11 +25,7 @@ class IocainePowder
 
   def never_start_a_land_war_in_asia
     return inconceivable! if poisoned?
-    LONG_INTERVALS.each do |rounds|
-      move = guess!(rounds)
-      return move unless move.nil?
-    end
-    anyone_want_a_peanut?
+    guess!
   end
 
   def inconceivable!
@@ -46,39 +40,18 @@ class IocainePowder
     true
   end
 
-  def guess!(rounds)
-    move = naive(rounds)
-    return move if recent_success?(move)
-    return double(move) if recent_success?(double(move))
-    return triple(move) if recent_success?(triple(move))
-    inconceivable!
+  def intervals
+    [1,2,3,4,5].collect {|i| (256 * rand).to_i }
   end
 
-  def double(move)
-    return nil if move.nil?
-    move.beaten_by.beaten_by
-  end
-
-  def triple(move)
-    return nil if move.nil?
-    move.beaten_by
-  end
-
-  def recent_success?(move)
-    SHORT_INTERVALS.reverse.each do |n|
-      opponent_moves = []
-      my_move = history.last.my_move(self)
-      recent = history.reverse[0..n].to_a.reverse
-      count_next_round = false
-      recent.each do |round|
-        opponent_moves << round.other_player_move(self) if(count_next_round)
-        count_next_round = (my_move == round.my_move(self))
-      end
-      break_em_down(opponent_moves).each do |each_move|
-        return true if each_move.length.to_f / opponent_moves.length.to_f > FOOL_THRESHOLD
-      end
+  def guess!
+    guesses = []
+    intervals.each do |rounds|
+        guesses << naive(rounds)
     end
-    false
+    guesses.compact!
+    return anyone_want_a_peanut? if guesses.empty?
+    break_em_down(guesses).sort {|a,b| b.length <=> a.length}.first.first
   end
 
   def naive(n)
@@ -90,10 +63,8 @@ class IocainePowder
       opponent_moves << round.other_player_move(self) if(count_next_round)
       count_next_round = (my_move == round.my_move(self))
     end
-    break_em_down(opponent_moves).each do |each_move|
-      return each_move.first.beaten_by if each_move.length.to_f / opponent_moves.length.to_f > FOOL_THRESHOLD
-    end
-    nil
+    return nil if opponent_moves.empty?
+    break_em_down(opponent_moves).sort {|a,b| b.length <=> a.length}.first.first.beaten_by
   end
 
   def break_em_down(moves)
@@ -102,6 +73,4 @@ class IocainePowder
     scissors = moves.select {|m| m.name == :scissors}
     [rocks, papers, scissors]
   end
-
 end
-
