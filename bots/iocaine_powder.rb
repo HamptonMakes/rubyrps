@@ -1,6 +1,6 @@
 #
 # Iocaine Powder for Ruby
-# Searches through the history to find common follow up moves
+# Searches through the game.history to find common follow up moves
 #
 # Written by Wesley Moxam
 #
@@ -15,8 +15,8 @@ class IocainePowder
     "Ported by Wes"
   end
 
-  def next
-    history.empty? ? anyone_want_a_peanut? : never_start_a_land_war_in_asia
+  def throw(game)
+    game.history.empty? ? anyone_want_a_peanut? : never_start_a_land_war_in_asia
   end
 
   def anyone_want_a_peanut?
@@ -56,8 +56,8 @@ class IocainePowder
 
   def naive(n)
     opponent_moves = []
-    my_move = history.last.my_move(self)
-    recent = history.reverse[0..n].to_a.reverse
+    my_move = game.history.last.my_move(self)
+    recent = game.history.reverse[0..n].to_a.reverse
     count_next_round = false
     recent.each do |round|
       opponent_moves << round.other_player_move(self) if(count_next_round)

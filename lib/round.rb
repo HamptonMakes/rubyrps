@@ -2,8 +2,8 @@ module RPS
   class Round
     attr_reader :first_player, :second_player, :first_player_move, :second_player_move, :winner
 
-    def initialize(first_player, second_player)
-      @first_player, @second_player = first_player, second_player
+    def initialize(first_player, second_player, game)
+      @first_player, @second_player, @game = first_player, second_player, game
       execute
     end
 
@@ -34,8 +34,9 @@ module RPS
    private
 
     def execute
-      @first_player_move = first_player.next
-      @second_player_move = second_player.next
+      first_player_move_not_instance = first_player.throw(@game)
+      @second_player_move = second_player.throw(@game)
+      @first_player_move = first_player_move_not_instance
 
       if first_player_move > second_player_move
         @winner = first_player
@@ -44,6 +45,8 @@ module RPS
       else
         @winner = false
       end
+      
+      @fir
     end
   end
 end

@@ -2,10 +2,10 @@ module RPS
   class Game
     attr_reader :history, :first_player, :second_player, :first_player_wins, :second_player_wins, :ties, :rounds_to_run
     
-    def initialize(first_player_klass, second_player_klass, options = {})
+    def initialize(first_player, second_player, options = {})
       @rounds_to_run = options[:rounds_to_run] || 1000
       @verbose = options[:verbose] || false
-      @first_player, @second_player = first_player_klass.new(self), second_player_klass.new(self)
+      @first_player, @second_player = first_player, second_player
       @first_player_wins, @second_player_wins, @ties = 0, 0, 0
     end
     
@@ -13,7 +13,7 @@ module RPS
       @history = []
       @rounds_to_run.times do |count|
         puts "------- ROUND #{count + 1} ------------" if @verbose
-        round = RPS::Round.new(first_player, second_player)
+        round = RPS::Round.new(first_player, second_player, self)
         history << round
         if round.winner == first_player
           @first_player_wins += 1

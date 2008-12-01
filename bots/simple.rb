@@ -16,8 +16,8 @@ class Simple
     "Wes"
   end
 
-  def next
-    history.empty? ? random_move : guess
+  def throw(game)
+    game.history.empty? ? random_move : guess
   end
 
   def random_move
@@ -43,8 +43,8 @@ class Simple
 
   def calculate_best_move_in(n)
     opponent_moves = []
-    my_move = history.last.my_move(self)
-    recent = history.reverse[0..n].to_a.reverse
+    my_move = game.history.last.my_move(self)
+    recent = game.history.reverse[0..n].to_a.reverse
     count_next_round = false
     # find all of the follow up moves that the other bot has played against yours
     recent.each do |round|

@@ -31,9 +31,9 @@ module RPS
   def self.run(options)
     set_options(options)
     select_bots(extract_bots(options))
-    game_record = {}
+    tournament = {}
     @@bots.each do |bot|
-      game_record[bot] = {:wins => 0, :losses => 0, :draws => 0}
+      tournament[bot] = {:wins => 0, :losses => 0, :draws => 0, :bot => bot.new}
     end
 
     puts 'Running in parallel' if @@threaded
@@ -45,10 +45,10 @@ module RPS
       (@@bots - [bot]).each do |other_bot|
         if @@threaded
           t << Thread.new do
-            game(bot, other_bot, game_record, lock)
+            game(bot, other_bot, tournament, lock)
           end
         else
-          game(bot, other_bot, game_record, lock)
+          game(bot, other_bot, tournament, lock)
         end
       end
     end
@@ -56,24 +56,24 @@ module RPS
     t.each {|thread| thread.join} if @@threaded
 
     puts "------------------\n\n"
-    game_record.each do |bot, data|
+    tournament.each do |bot, data|
       puts bot.to_s + "\t\tW#{data[:wins]}, L#{data[:losses]}, D#{data[:draws]}"
     end
   end
 
-  def self.game(bot, other_bot, game_record, lock)
+  def self.game(bot, other_bot, tournament, lock)
     game = Game.new(bot, other_bot)
     game.execute
     lock.synchronize do
       if game.winner.class == bot
-        game_record[bot][:wins]        += 1
-        game_record[other_bot][:losses] += 1
+        tournament[bot][:wins]        += 1
+        tournament[other_bot][:losses] += 1
       elsif game.winner.class == other_bot
-        game_record[other_bot][:wins]  += 1
-        game_record[bot][:losses]       += 1
+        tournament[other_bot][:wins]  += 1
+        tournament[bot][:losses]       += 1
       else
-        game_record[other_bot][:draws] += 1
-        game_record[bot][:draws]       += 1
+        tournament[other_bot][:draws] += 1
+        tournament[bot][:draws]       += 1
       end
       puts game
     end

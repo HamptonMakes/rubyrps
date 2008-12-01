@@ -10,7 +10,7 @@ class Stubborn
     "Hampton Catlin"
   end
   
-  def next
+  def throw(game)
     # good ol' rock... nothin' beats that!
     moves.first
   end

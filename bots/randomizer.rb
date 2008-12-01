@@ -11,11 +11,11 @@ class Randomizer
     "Hampton Catlin"
   end
   
-  def next
-    # Gets an array of the history of the rounds so far
+  def throw(game)
+    # Gets an array of the game.history of the rounds so far
     # 
     # Built like [[:scissors, true], [:rock, false]]
-    history
+    game.history
     
     # This one selects randomly through the list of available moves
     moves[rand(moves.size)]

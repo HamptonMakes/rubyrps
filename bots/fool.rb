@@ -12,9 +12,9 @@ class Fool
     "Hampton Catlin"
   end
   
-  def next
-    if history.any?
-      history.last.other_player_move(self).beaten_by
+  def throw(game)
+    if game.history.any?
+      game.history.last.other_player_move(self).beaten_by
     else
       moves.first
     end
